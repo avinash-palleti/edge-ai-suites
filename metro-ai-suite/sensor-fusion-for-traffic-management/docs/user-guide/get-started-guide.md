@@ -1,12 +1,10 @@
 # Get Started Guide
-This section explains how to run Sensor Fusion for Traffic Management on Bare Metal systems.
+
+## Run Metro AI Suite Sensor Fusion for Traffic Management Application on Bare Metal systems
+
+In this section, we describe how to run Metro AI Suite Sensor Fusion for Traffic Management application on Bare Metal systems.
 
 For prerequisites and system requirements, see [prerequisites.md](./prerequisites.md) and [system-req.md](./system-req.md).
-
-
-## Run Metro AI Suite Sensor Fusion for Traffic Management Application
-
-In this section, we describe how to run Metro AI Suite Sensor Fusion for Traffic Management application.
 
 Metro AI Suite Sensor Fusion for Traffic Management application can support different pipeline using topology JSON files to describe the pipeline topology. The defined pipeline topology can be found at [Resources Summary](#resources-summary)
 
@@ -18,30 +16,30 @@ Besides, you can test each component (without display) following the guides at [
 
 ### Resources Summary
 - Local File Pipeline for Media pipeline
-  - Json File: localMediaPipeline.json 
-    
+  - Json File: localMediaPipeline.json
+
     > File location: `$PROJ_DIR/ai_inference/test/configs/kitti/1C1L/localMediaPipeline.json`
-  - Pipeline Description: 
+  - Pipeline Description:
     ```
     input -> decode -> detection -> tracking -> output
     ```
-  
+
 - Local File Pipeline for Lidar pipeline
   - Json File: localLidarPipeline.json
-    
+
     > File location: `$PROJ_DIR/ai_inference/test/configs/kitti/1C1L/localLidarPipeline.json`
-- Pipeline Description: 
-  
+- Pipeline Description:
+
     ```
     input -> lidar signal processing -> output
   ```
-  
+
 - Local File Pipeline for `Camera + Lidar(2C+1L)` Sensor fusion pipeline
 
   - Json File: localFusionPipeline.json
-    
+
     > File location: `$PROJ_DIR/ai_inference/test/configs/kitti/2C1L/localFusionPipeline.json`
-  - Pipeline Description: 
+  - Pipeline Description:
     ```
            | -> decode     -> detector         -> tracker                  -> |                                    |
     input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> | -> output
@@ -50,24 +48,24 @@ Besides, you can test each component (without display) following the guides at [
 - Local File Pipeline for `Camera + Lidar(4C+2L)` Sensor fusion pipeline
 
   - Json File: localFusionPipeline.json
-    
+
     > File location: `$PROJ_DIR/ai_inference/test/configs/raddet/2C1L/localFusionPipeline.json`
-  - Pipeline Description: 
+  - Pipeline Description:
     ```
            | -> decode     -> detector         -> tracker                  -> |                                    |
     input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> |
            | ->                lidar signal processing                     -> |                                    |
            | -> decode     -> detector         -> tracker                  -> |                                    | -> output
-    input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> | 
+    input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> |
            | ->                lidar signal processing                     -> |                                    |
     ```
-  
+
 - Local File Pipeline for `Camera + Lidar(12C+2L)` Sensor fusion pipeline
 
     - Json File: localFusionPipeline.json
       `File location: ai_inference/test/configs/kitti/6C1L/localFusionPipeline.json`
 
-    - Pipeline Description: 
+    - Pipeline Description:
 
         ```
                | -> decode     -> detector         -> tracker                  -> |                                    |
@@ -84,29 +82,29 @@ Besides, you can test each component (without display) following the guides at [
     - Json File: localFusionPipeline.json
       `File location: ai_inference/test/configs/kitti/2C1L/localFusionPipeline.json`
 
-    - Pipeline Description: 
+    - Pipeline Description:
 
         ```
                | -> decode     -> detector         -> tracker                  -> |                                    |
         input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> |
                | ->                lidar signal processing                     -> |                                    |
                | -> decode     -> detector         -> tracker                  -> |                                    |
-        input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> | 
+        input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> |
                | ->                lidar signal processing                     -> |                                    | -> output
                | -> decode     -> detector         -> tracker                  -> |                                    |
-        input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> | 
+        input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> |
                | ->                lidar signal processing                     -> |                                    |
                | -> decode     -> detector         -> tracker                  -> |                                    |
-        input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> | 
+        input  | -> decode     -> detector         -> tracker                  -> | -> LidarCam2CFusion ->  fusion  -> |
                | ->                lidar signal processing                     -> |                                    |
         ```
-  
+
 - Local File Pipeline for `Camera + Lidar(12C+4L)` Sensor fusion pipeline
 
     - Json File: localFusionPipeline.json
       `File location: ai_inference/test/configs/kitti/3C1L/localFusionPipeline.json`
 
-    - Pipeline Description: 
+    - Pipeline Description:
 
         ```
                | -> decode     -> detector         -> tracker                  -> |                                    |
@@ -446,6 +444,67 @@ Please refer to [kitti360_guide.md](../../deployments/how_to_generate_kitti_form
 
     ![Display type: lidar](_images/12C4L-Display-type-lidar.png)
 
+
+## Run Metro AI Suite Sensor Fusion for Traffic Management Application on Edge Microvisor Toolkit systems
+
+This section explains how to run Sensor Fusion for Traffic Management on Edge Microvisor Toolkit systems.
+
+For prerequisites and system requirements, please prepare a machine with the Edge Microvisor Toolkit system installed.
+
+**For Edge Microvisor Toolkit systems, Sensor Fusion for Traffic Management is only available in containerized format. To deploy and run the application on Edge Microvisor Toolkit, please follow the guidance bellow for pulling the docker image from DockerHub and running the containerized application.**
+
+### Install X11
+
+```bash
+sudo -E tdnf install xorg-x11-server-Xorg xorg-x11-xinit xorg-x11-xinit-session xorg-x11-drv-libinput xorg-x11-apps xterm openbox libXfont2 freefont freetype gtk3 qemu-with-ui
+sudo dnf install python3
+sudo -E python3 -m pip install PyXDG
+```
+
+### Modify 20-modesetting.conf
+
+```bash
+cd /usr/share/X11/xorg.conf.d/
+sudo nano 20-modesetting.conf
+
+## Add the following configuration into 20-modesetting.conf
+Section "Device"
+  Identifier "Intel_Graphics"
+    Driver "modesetting"
+    Option "SWcursor" "true"
+    Option "AccelMethod" "glamor"
+    Option "DRI" "3"
+EndSection
+```
+
+### X11 setting
+
+```bash
+export XDG_RUNTIME_DIR=/tmp
+sudo -E bash -c 'xinit /usr/bin/openbox-session &'
+
+export DISPLAY=:0
+xhost +
+
+xhost +local:docker
+```
+
+### Pull docker image
+
+You can pull latest tfcc docker image through [intel/tfcc - Docker Image](https://hub.docker.com/r/intel/tfcc/).
+
+For example:
+
+```bash
+docker pull intel/tfcc:latest
+```
+
+### Run TFCC docker image on Edge Microvisor Toolkit systems
+
+For Edge Microvisor Toolkit systems, Sensor Fusion for Traffic Management is only available in containerized format. To deploy and run the application on Edge Microvisor Toolkit, please pulling the docker image from DockerHub and follow the guidance in the [run docker image](./advanced-user-guide.md#run-docker-image) section and [Running inside docker](./advanced-user-guide.md#running-inside-docker) section of [Advanced-User-Guide.md](./advanced-user-guide.md).
+
+
+
 ## Code Reference
 
 Some of the code is referenced from the following projects:
@@ -510,16 +569,16 @@ Some of the code is referenced from the following projects:
     It may be because the iGPU is not enabled, only the B580 is enabled.
 
     You can use `lspci | grep VGA` to view the number of GPU devices on the machine.
-    
+
     The solution is either enable iGPU in BIOS, or change the config of `Device=(STRING)GPU.1` to `Device=(STRING)GPU` in `VPLDecoderNode` and `VPLDecoderNode` in pipeline config file, for example: `ai_inference/test/configs/kitti/6C1L/localFusionPipeline.json`.
 
 5. If you encounter the following backends mismatch errors during running pipeline:
     ![backends_mismatch_error](./_images/backends_mismatch_error.png)
-    
+
     <center>Figure 5: Backends Mismatch Error</center>
-    
+
     This is because the wrong or non-existent device is selected. We need to select the `dGPU+opencl` Backend. As shown in the figure, it should be the second device (numbered starting from 0), that is, `GPU.2`.
-    
+
     The solution is change config `Device=(STRING)GPU.4` to `Device=(STRING)GPU.2` in `LidarSignalProcessingNode` in pipeline config file, for example:  `ai_inference/test/configs/kitti/6C1L/localFusionPipeline.json`.
 
 
@@ -531,4 +590,3 @@ Current Version: 3.0
 - Support Pointpillar model
 - Updated OpenVINO to 2025.3
 - Updated oneAPI to 2025.3.0
-

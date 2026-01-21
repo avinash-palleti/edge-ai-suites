@@ -1,4 +1,19 @@
 # Wind Turbine Anomaly Detection
+<!--hide_directive
+<div class="component_card_widget">
+  <a class="icon_github" href="https://github.com/open-edge-platform/edge-ai-suites/tree/main/manufacturing-ai-suite/industrial-edge-insights-time-series/apps/wind-turbine-anomaly-detection">
+     GitHub project
+  </a>
+  </div>
+hide_directive-->
+
+<!--hide_directive
+<div class="component_card_widget">
+  <a class="icon_github" href="https://github.com/open-edge-platform/edge-ai-suites/tree/main/manufacturing-ai-suite/industrial-edge-insights-time-series/apps/wind-turbine-anomaly-detection">
+     GitHub project
+  </a>
+  </div>
+hide_directive-->
 
 This sample app demonstrates a time series use case by detecting anomalous power generation
 patterns in wind turbines, relative to wind speed. By identifying deviations, it helps
@@ -11,7 +26,6 @@ If you want to start working with it, instead, check out the
 [Get Started Guide](../get-started.md) or [How-to Guides](../how-to-guides/index.md)
 for Time-series applications.
 
-
 ## App Architecture
 
 As seen in the following architecture diagram, the sample app at a high-level comprises of data simulators(can act as data destinations if configured) - these in the real world would be the physical devices, the generic Time Series AI stack based on **TICK Stack** comprising of Telegraf, InfluxDB, Time Series Analytics microservice using Kapacitor and Grafana.
@@ -20,7 +34,7 @@ As seen in the following architecture diagram, the sample app at a high-level co
 
 ### Data flow explanation
 
-Let's discuss how this architecture translates to data flow in the wind turbine anomaly detection use case, by ingesting the data using the OPC-UA server/MQTT publisher simulators and publishing the anomaly alerts to MQTT broker.
+Let's discuss how this architecture translates to data flow in the wind turbine anomaly detection use case, by ingesting the data using the OPC-UA server/MQTT publisher simulators and publishing the anomaly alerts to OPC-UA server/MQTT broker.
 
 #### **Data Sources**
 
@@ -94,7 +108,7 @@ By default, it is configured to publish the alerts to **MQTT**.
 
 ##### **`models/`**
 
-The `windturbine_anomaly_detector.pkl` is a model built using the RandomForestRegressor Algo from scikit-learn libary.
+The `windturbine_anomaly_detector.pkl` is a model built using the RandomForestRegressor Algo from scikit-learn library.
 More details on how it is built is accessible at `edge-ai-suites/manufacturing-ai-suite/industrial-edge-insights-time-series/apps/wind-turbine-anomaly-detection/training/windturbine/README.md`
 
 <!--hide_directive
